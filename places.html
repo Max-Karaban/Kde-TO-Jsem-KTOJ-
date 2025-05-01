@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Places</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fefefe;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .selectable {
+      padding: 10px 20px;
+      background: #eee;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .selectable.selected {
+      border-color: #007BFF;
+      background: #d0e7ff;
+    }
+    .interests input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose Your Trip Details</h1>
+
+  <div class="section">
+    <h2>Select Cities</h2>
+    <div class="button-grid" id="cityButtons">
+      <div class="selectable">London</div>
+      <div class="selectable">Paris</div>
+      <div class="selectable">Dubai</div>
+      <div class="selectable">Praha</div>
+      <div class="selectable">Berlin</div>
+      <div class="selectable">Rome</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Trip Type</h2>
+    <div class="button-grid" id="tripType">
+      <div class="selectable">Solo Trip</div>
+      <div class="selectable">Partner Trip</div>
+      <div class="selectable">Friends Trip</div>
+      <div class="selectable">Family Trip</div>
+    </div>
+  </div>
+
+  <div class="section interests">
+    <h2>What Are You Interested In?</h2>
+    <label><input type="checkbox"> Must-see Attractions</label><br>
+    <label><input type="checkbox"> Great Food</label><br>
+    <label><input type="checkbox"> Hidden Gems</label><br>
+    <label><input type="checkbox"> Tours & Experiences</label><br>
+    <label><input type="checkbox"> Wizardry tours & adventures</label><br>
+    <label><input type="checkbox"> Pub crawls and tours</label><br>
+    <textarea placeholder="Other interests (optional)..."></textarea>
+  </div>
+
+  <div class="buttons">
+    <button onclick="window.location.href='index.html'">Back</button>
+    <button onclick="window.location.href='generate.html'">Continue</button>
+  </div>
+
+  <script>
+    document.querySelectorAll('.button-grid').forEach(group => {
+      group.addEventListener('click', (e) => {
+        if (e.target.classList.contains('selectable')) {
+          // если группа типа поездки — только один выбор
+          if (group.id === 'tripType') {
+            group.querySelectorAll('.selectable').forEach(el => el.classList.remove('selected'));
+          }
+          e.target.classList.toggle('selected');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
