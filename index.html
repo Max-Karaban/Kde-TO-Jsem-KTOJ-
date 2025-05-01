@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Trip</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Create a New Trip</h1>
+  <form id="tripForm">
+    <label for="title">Trip Title:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description"></textarea>
+
+    <label for="start">Start Date:</label>
+    <input type="date" id="start" name="start" required />
+
+    <label for="end">End Date:</label>
+    <input type="date" id="end" name="end" />
+
+    <button type="submit">Create</button>
+  </form>
+</body>
+</html>
