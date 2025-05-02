@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Trip</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -21,7 +21,36 @@
     <label for="end">End Date:</label>
     <input type="date" id="end" name="end" />
 
-    <button type="button" onclick="window.location.href='places.html'">Continue</button>
+    <button type="submit">Create</button>
   </form>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <button onclick="window.location.href='trips.html'">📋 View My Trips</button>
+  </div>
+
+
+<!-- Скрипт для боковой панели -->
+  <script>
+    fetch('sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar-container').innerHTML = html;
+      });
+
+    const form = document.getElementById("tripForm");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+
+      const tripBase = { title, description, start, end };
+      localStorage.setItem("tripBase", JSON.stringify(tripBase));
+
+      window.location.href = "places.html";
+    });
+  </script>
 </body>
 </html>

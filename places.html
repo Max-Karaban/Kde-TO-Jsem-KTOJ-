@@ -8,10 +8,13 @@
   <style>
     body {
       font-family: sans-serif;
+      margin: 0;
+    }
+    .main {
+      padding-left: 220px;
       max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #fefefe;
+      margin: 0 auto;
+      padding-top: 40px;
     }
     h1, h2 {
       text-align: center;
@@ -65,57 +68,82 @@
   </style>
 </head>
 <body>
-  <h1>Choose Your Trip Details</h1>
+  <div id="sidebar-container"></div>
 
-  <div class="section">
-    <h2>Select Cities</h2>
-    <div class="button-grid" id="cityButtons">
-      <div class="selectable">London</div>
-      <div class="selectable">Paris</div>
-      <div class="selectable">Dubai</div>
-      <div class="selectable">Praha</div>
-      <div class="selectable">Berlin</div>
-      <div class="selectable">Rome</div>
+  <div class="main">
+    <h1>Choose Your Trip Details</h1>
+
+    <div class="section">
+      <h2>Select Cities</h2>
+      <div class="button-grid" id="cityButtons">
+        <div class="selectable">London</div>
+        <div class="selectable">Paris</div>
+        <div class="selectable">Dubai</div>
+        <div class="selectable">Prague</div>
+        <div class="selectable">Wien</div>
+        <div class="selectable">Rome</div>
+      </div>
     </div>
-  </div>
 
-  <div class="section">
-    <h2>Trip Type</h2>
-    <div class="button-grid" id="tripType">
-      <div class="selectable">Solo Trip</div>
-      <div class="selectable">Partner Trip</div>
-      <div class="selectable">Friends Trip</div>
-      <div class="selectable">Family Trip</div>
+    <div class="section">
+      <h2>Trip Type</h2>
+      <div class="button-grid" id="tripType">
+        <div class="selectable">Solo Trip</div>
+        <div class="selectable">Partner Trip</div>
+        <div class="selectable">Friends Trip</div>
+        <div class="selectable">Family Trip</div>
+      </div>
     </div>
-  </div>
 
-  <div class="section interests">
-    <h2>What Are You Interested In?</h2>
-    <label><input type="checkbox"> Must-see Attractions</label><br>
-    <label><input type="checkbox"> Great Food</label><br>
-    <label><input type="checkbox"> Hidden Gems</label><br>
-    <label><input type="checkbox"> Tours & Experiences</label><br>
-    <label><input type="checkbox"> Wizardry tours & adventures</label><br>
-    <label><input type="checkbox"> Pub crawls and tours</label><br>
-    <textarea placeholder="Other interests (optional)..."></textarea>
-  </div>
+    <div class="section interests">
+      <h2>What Are You Interested In?</h2>
+      <label><input type="checkbox"> Must-see Attractions</label><br>
+      <label><input type="checkbox"> Great Food</label><br>
+      <label><input type="checkbox"> Hidden Gems</label><br>
+      <label><input type="checkbox"> Tours & Experiences</label><br>
+      <label><input type="checkbox"> Wizardry tours & adventures</label><br>
+      <label><input type="checkbox"> Pub crawls and tours</label><br>
+      <textarea placeholder="Other interests (optional)..."></textarea>
+    </div>
 
-  <div class="buttons">
-    <button onclick="window.location.href='index.html'">Back</button>
-    <button onclick="window.location.href='generate.html'">Continue</button>
+    <div class="buttons">
+      <button onclick="window.location.href='index.html'">Back</button>
+      <button onclick="window.location.href='generate.html'">Continue</button>
+    </div>
   </div>
 
   <script>
+    fetch('sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar-container').innerHTML = html;
+      });
+
     document.querySelectorAll('.button-grid').forEach(group => {
       group.addEventListener('click', (e) => {
         if (e.target.classList.contains('selectable')) {
-          // если группа типа поездки — только один выбор
           if (group.id === 'tripType') {
             group.querySelectorAll('.selectable').forEach(el => el.classList.remove('selected'));
           }
           e.target.classList.toggle('selected');
         }
       });
+    });
+
+    document.querySelector("button[onclick*='generate.html']").addEventListener("click", () => {
+      const selectedCities = Array.from(document.querySelectorAll("#cityButtons .selected")).map(btn => btn.textContent);
+      const tripType = document.querySelector("#tripType .selected")?.textContent || "";
+      const interests = Array.from(document.querySelectorAll(".interests input[type='checkbox']:checked")).map(i => i.parentElement.textContent.trim());
+      const customInterest = document.querySelector(".interests textarea").value.trim();
+
+      const tripData = {
+        cities: selectedCities,
+        tripType,
+        interests,
+        customInterest
+      };
+
+      localStorage.setItem("tripData", JSON.stringify(tripData));
     });
   </script>
 </body>
